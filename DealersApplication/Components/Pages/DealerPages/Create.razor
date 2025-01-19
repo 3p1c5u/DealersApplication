@@ -1,0 +1,108 @@
+﻿@page "/dealers/create"
+@using Microsoft.EntityFrameworkCore
+@using DealersApplication.Models
+@inject IDbContextFactory<DealersApplication.Data.DealersAppDBContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create</PageTitle>
+
+<h1 class="text-center my-4 text-warning">Create New Dealer</h1>
+
+<style>
+    .colorful-form-container {
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        border-radius: 15px;
+        padding: 2rem;
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .form-control {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg, #56ab2f, #a8e063);
+        border: none;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #3c8d2f, #7dc654);
+        }
+</style>
+
+
+<hr />
+<div class="row justify-content-center">
+    <div class="col-md-6 colorful-form-container">
+        <EditForm method="post" Model="Dealer" OnValidSubmit="AddDealer" FormName="create" Enhance>
+            <DataAnnotationsValidator />
+            <ValidationSummary class="text-danger" role="alert" />
+            <div class="mb-3">
+                <label for="name" class="form-label">Name:</label>
+                <InputText id="name" @bind-Value="Dealer.Name" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.Name" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address:</label>
+                <InputText id="address" @bind-Value="Dealer.Address" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.Address" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="city" class="form-label">City:</label>
+                <InputText id="city" @bind-Value="Dealer.City" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.City" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="state" class="form-label">State:</label>
+                <InputText id="state" @bind-Value="Dealer.State" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.State" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="zipcode" class="form-label">ZipCode:</label>
+                <InputText id="zipcode" @bind-Value="Dealer.ZipCode" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.ZipCode" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="phonenumber" class="form-label">PhoneNumber:</label>
+                <InputText id="phonenumber" @bind-Value="Dealer.PhoneNumber" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.PhoneNumber" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email:</label>
+                <InputText id="email" @bind-Value="Dealer.Email" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.Email" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="website" class="form-label">Website:</label>
+                <InputText id="website" @bind-Value="Dealer.Website" class="form-control shadow-sm" />
+                <ValidationMessage For="() => Dealer.Website" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="establisheddate" class="form-label">EstablishedDate:</label>
+                <InputDate id="establisheddate" @bind-Value="Dealer.EstablishedDate" class="form-control shadow-sm" aria-required="true" />
+                <ValidationMessage For="() => Dealer.EstablishedDate" class="text-danger" />
+            </div>
+            <button type="submit" class="btn btn-primary w-100 shadow-sm">Create</button>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    private Dealer Dealer { get; set; } = new();
+
+    private async Task AddDealer()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Dealer.Add(Dealer);
+        await context.SaveChangesAsync();
+        NavigationManager.NavigateTo("/");
+    }
+}
+

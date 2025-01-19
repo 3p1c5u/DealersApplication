@@ -1,0 +1,26 @@
+﻿@inherits LayoutComponentBase
+
+<div class="page">
+    <div class="sidebar">
+        <NavMenu />
+    </div>
+
+    <main>
+        <div class="top-row px-4">
+            <h2 class="text-center my-4" style="font-family: 'Poppins', 
+                        sans-serif; font-weight: bold; font-size: 2.5rem; background: linear-gradient(90deg, 
+                        #ff7eb3, #ff758c, #ff585d); -webkit-text-fill-color: transparent; -webkit-background-clip: text;
+                        text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);">Welcome To Dealers Web App</h2>
+        </div>
+
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
+</div>
+
+<div id="blazor-error-ui">
+    An unhandled error has occurred.
+    <a href="" class="reload">Reload</a>
+    <a class="dismiss">🗙</a>
+</div>

@@ -1,0 +1,167 @@
+﻿@page "/dealers/edit"
+@using Microsoft.EntityFrameworkCore
+@using DealersApplication.Models
+@inject IDbContextFactory<DealersApplication.Data.DealersAppDBContext> DbFactory
+@inject NavigationManager NavigationManager
+
+<PageTitle>Edit</PageTitle>
+
+<h1 class="text-center text-gradient">Edit Dealer</h1>
+
+<style>
+    .text-gradient {
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        font-size: 2rem;
+        background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff585d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+    }
+
+    .colorful-form-container {
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        border-radius: 15px;
+        padding: 2rem;
+        width: 100%; /* Full width */
+        max-width: 600px; /* Set a maximum width */
+        min-height: 600px; /* Adjust the minimum height to fit content */
+        box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        margin: 0 auto; /* Center the container */
+    }
+
+    .form-control {
+        border-radius: 8px;
+        border: 1px solid #ccc;
+    }
+
+    .btn-primary {
+        background: linear-gradient(90deg, #56ab2f, #a8e063);
+        border: none;
+        font-weight: bold;
+    }
+
+        .btn-primary:hover {
+            background: linear-gradient(90deg, #3c8d2f, #7dc654);
+        }
+</style>
+
+<hr />
+
+@if (Dealer is null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <div class="row justify-content-center">
+        <div class="col-md-6 colorful-form-container">
+            <EditForm method="post" Model="Dealer" OnValidSubmit="UpdateDealer" FormName="edit" Enhance>
+                <DataAnnotationsValidator />
+                <ValidationSummary role="alert" />
+                <input type="hidden" name="Dealer.DealerId" value="@Dealer.DealerId" />
+                <div class="mb-3">
+                    <label for="name" class="form-label">Name:</label>
+                    <InputText id="name" @bind-Value="Dealer.Name" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.Name" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="address" class="form-label">Address:</label>
+                    <InputText id="address" @bind-Value="Dealer.Address" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.Address" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="city" class="form-label">City:</label>
+                    <InputText id="city" @bind-Value="Dealer.City" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.City" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="state" class="form-label">State:</label>
+                    <InputText id="state" @bind-Value="Dealer.State" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.State" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="zipcode" class="form-label">ZipCode:</label>
+                    <InputText id="zipcode" @bind-Value="Dealer.ZipCode" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.ZipCode" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="phonenumber" class="form-label">PhoneNumber:</label>
+                    <InputText id="phonenumber" @bind-Value="Dealer.PhoneNumber" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.PhoneNumber" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="email" class="form-label">Email:</label>
+                    <InputText id="email" @bind-Value="Dealer.Email" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.Email" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="website" class="form-label">Website:</label>
+                    <InputText id="website" @bind-Value="Dealer.Website" class="form-control shadow-sm" />
+                    <ValidationMessage For="() => Dealer.Website" class="text-danger" />
+                </div>
+                <div class="mb-3">
+                    <label for="establisheddate" class="form-label">EstablishedDate:</label>
+                    <InputDate id="establisheddate" @bind-Value="Dealer.EstablishedDate" class="form-control shadow-sm" aria-required="true" />
+                    <ValidationMessage For="() => Dealer.EstablishedDate" class="text-danger" />
+                </div>
+                <button type="submit" class="btn btn-primary w-100 shadow-sm">Save</button>
+            </EditForm>
+        </div>
+    </div>
+}
+
+<div class="mt-4 text-center">
+    <a href="/dealers" class="btn btn-secondary w-100 py-3">Back to List</a>
+</div>
+
+@code {
+    [SupplyParameterFromQuery]
+    private int DealerId { get; set; }
+
+    [SupplyParameterFromForm]
+    private Dealer? Dealer { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        using var context = DbFactory.CreateDbContext();
+        Dealer ??= await context.Dealer.FirstOrDefaultAsync(m => m.DealerId == DealerId);
+
+        if (Dealer is null)
+        {
+            NavigationManager.NavigateTo("notfound");
+        }
+    }
+
+    // To protect from overposting attacks, enable the specific properties you want to bind to.
+    // For more information, see https://learn.microsoft.com/aspnet/core/blazor/forms/#mitigate-overposting-attacks.
+    private async Task UpdateDealer()
+    {
+        using var context = DbFactory.CreateDbContext();
+        context.Attach(Dealer!).State = EntityState.Modified;
+
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!DealerExists(Dealer!.DealerId))
+            {
+                NavigationManager.NavigateTo("notfound");
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        NavigationManager.NavigateTo("/dealers");
+    }
+
+    private bool DealerExists(int dealerid)
+    {
+        using var context = DbFactory.CreateDbContext();
+        return context.Dealer.Any(e => e.DealerId == dealerid);
+    }
+}

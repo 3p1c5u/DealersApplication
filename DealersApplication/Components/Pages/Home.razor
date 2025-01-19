@@ -1,0 +1,98 @@
+﻿@page "/"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using DealersApplication.Models
+@using DealersApplication.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<DealersApplication.Data.DealersAppDBContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<style>
+    .text-gradient {
+        font-family: 'Poppins', sans-serif;
+        font-weight: bold;
+        font-size: 2rem;
+        background: linear-gradient(90deg, #ff7eb3, #ff758c, #ff585d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .colorful-table-container {
+        background-color: lightgray;
+        padding: 1rem;
+        border-radius: 10px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .colorful-table {
+        background: linear-gradient(90deg, #fff3e0, #e0f7fa);
+        border-collapse: collapse;
+        width: 100%;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+        .colorful-table thead th {
+            background: linear-gradient(90deg, #ff6f61, #ffcc80);
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            padding: 1rem;
+            border-bottom: 5px solid #fff;
+        }
+
+        .colorful-table tbody tr:nth-child(odd) {
+            background-color: #ffecb3;
+        }
+
+        .colorful-table tbody tr:nth-child(even) {
+            background-color: #e1f5fe;
+        }
+
+        .colorful-table tbody tr:hover {
+            background-color: #b2ebf2;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .colorful-table tbody td {
+            text-align: center;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+        }
+
+    .table-responsive {
+        overflow-x: auto;
+    }
+</style>
+
+<h1 class="text-center my-4 text-warning">Dealers</h1>
+
+<div class="container-fluid">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+            <div class="table-responsive colorful-table-container shadow-lg rounded">
+                <QuickGrid Class="table colorful-table table-hover align-middle" Items="context.Dealer">
+                    <PropertyColumn Property="dealer => dealer.Name" Title="Name" />
+                    <PropertyColumn Property="dealer => dealer.Address" Title="Address" />
+                    <PropertyColumn Property="dealer => dealer.City" Title="City" />
+                    <PropertyColumn Property="dealer => dealer.State" Title="State" />
+                    <PropertyColumn Property="dealer => dealer.ZipCode" Title="Zip Code" />
+                </QuickGrid>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DealersAppDBContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}

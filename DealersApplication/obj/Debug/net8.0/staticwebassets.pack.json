@@ -1,0 +1,45 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Sartjunan\\source\\repos\\DealersApplication\\DealersApplication\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\DealersApplication.bundle.scp.css",
+      "PackagePath": "staticwebassets\\DealersApplication.k1dd8028bg.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\Sartjunan\\source\\repos\\DealersApplication\\DealersApplication\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\Sartjunan\\source\\repos\\DealersApplication\\DealersApplication\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\Sartjunan\\source\\repos\\DealersApplication\\DealersApplication\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\Sartjunan\\source\\repos\\DealersApplication\\DealersApplication\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.DealersApplication.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.DealersApplication.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.DealersApplication.props",
+      "PackagePath": "build\\DealersApplication.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.DealersApplication.props",
+      "PackagePath": "buildMultiTargeting\\DealersApplication.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.DealersApplication.props",
+      "PackagePath": "buildTransitive\\DealersApplication.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

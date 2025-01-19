@@ -1,0 +1,136 @@
+﻿@page "/dealers"
+@using Microsoft.EntityFrameworkCore
+@using Microsoft.AspNetCore.Components.QuickGrid
+@using DealersApplication.Models
+@using DealersApplication.Data
+@implements IAsyncDisposable
+@inject IDbContextFactory<DealersApplication.Data.DealersAppDBContext> DbFactory
+
+<PageTitle>Index</PageTitle>
+
+<style>
+    .custom-table {
+        background-color: #f8f9fa;
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+        .custom-table th {
+            background-color: #4e73df;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            padding: 12px;
+            border-bottom: 3px solid #ddd;
+        }
+
+        .custom-table td {
+            text-align: center;
+            padding: 10px;
+            vertical-align: middle;
+        }
+
+        .custom-table tr:nth-child(even) {
+            background-color: #f1f1f1;
+        }
+
+        .custom-table tr:hover {
+            background-color: #e2e6ea;
+            transform: scale(1.02);
+        }
+
+        .custom-table .btn-sm {
+            padding: 8px 15px;
+            font-size: 14px;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+            .custom-table .btn-sm:hover {
+                opacity: 0.9;
+                transform: translateY(-2px);
+            }
+
+    .custom-btn {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+        .custom-btn:hover {
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+    .custom-table .btn-warning {
+        background-color: #ffc107;
+        border-color: #ffc107;
+        color: white;
+    }
+
+    .custom-table .btn-info {
+        background-color: #17a2b8;
+        border-color: #17a2b8;
+        color: white;
+    }
+
+    .custom-table .btn-danger {
+        background-color: #dc3545;
+        border-color: #dc3545;
+        color: white;
+    }
+
+    .custom-table .btn-warning:hover {
+        background-color: #e0a800;
+        border-color: #e0a800;
+    }
+
+    .custom-table .btn-info:hover {
+        background-color: #138496;
+        border-color: #138496;
+    }
+
+    .custom-table .btn-danger:hover {
+        background-color: #c82333;
+        border-color: #c82333;
+    }
+</style>
+
+<h1 class="text-center text-warning my-4">Dealers</h1>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="table-responsive">
+                <QuickGrid Class="table table-striped table-hover align-middle custom-table" Items="context.Dealer">
+                    <PropertyColumn Property="dealer => dealer.Name" />
+                    <PropertyColumn Property="dealer => dealer.Address" />
+                    <PropertyColumn Property="dealer => dealer.City" />
+                    <PropertyColumn Property="dealer => dealer.State" />
+                    <PropertyColumn Property="dealer => dealer.ZipCode" />
+                    <PropertyColumn Property="dealer => dealer.PhoneNumber" />
+
+                    <TemplateColumn Context="dealer">
+                        <div class="d-flex flex-wrap justify-content-center gap-2">
+                            <a href="@($"dealers/edit?dealerid={dealer.DealerId}")" class="btn btn-sm btn-warning custom-btn">Edit</a>
+                            <a href="@($"dealers/details?dealerid={dealer.DealerId}")" class="btn btn-sm btn-info custom-btn">Details</a>
+                            <a href="@($"dealers/delete?dealerid={dealer.DealerId}")" class="btn btn-sm btn-danger custom-btn">Delete</a>
+                        </div>
+                    </TemplateColumn>
+                </QuickGrid>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DealersAppDBContext context = default!;
+
+    protected override void OnInitialized()
+    {
+        context = DbFactory.CreateDbContext();
+    }
+
+    public async ValueTask DisposeAsync() => await context.DisposeAsync();
+}
+
