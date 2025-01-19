@@ -1,2 +1,2 @@
-Interview Task V1.2 /
+Interview Task v1.2 /
 MSSQL
